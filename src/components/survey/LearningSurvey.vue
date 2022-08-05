@@ -50,6 +50,8 @@
 </template>
 
 <script>
+const surveysUrl =
+  "https://vue-axios-backend-default-rtdb.firebaseio.com/surveys.json";
 export default {
   data() {
     return {
@@ -72,10 +74,28 @@ export default {
         rating: this.chosenRating,
       });
 
+      fetch(surveysUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.enteredName,
+          rating: this.chosenRating,
+        }),
+      });
       this.enteredName = "";
       this.chosenRating = null;
     },
   },
+  /*
+    request() {
+      axios.post("https://vue-axios-backend-default-rtdb.firebaseio.com/", {
+        name: this.enteredName,
+        rating: this.chosenRating,
+      });
+    },
+  */
 };
 </script>
 
