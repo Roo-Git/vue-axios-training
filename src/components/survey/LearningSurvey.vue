@@ -41,6 +41,7 @@
         <p v-if="invalidInput">
           One or more input fields are invalid. Please check your provided data.
         </p>
+        <p v-if="error">{{ error }}</p>
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -58,6 +59,7 @@ export default {
       enteredName: "",
       chosenRating: null,
       invalidInput: false,
+      error: null,
     };
   },
   emits: ["survey-submit"],
@@ -73,7 +75,7 @@ export default {
         userName: this.enteredName,
         rating: this.chosenRating,
       });
-
+      this.error = null;
       fetch(surveysUrl, {
         method: "POST",
         headers: {
@@ -83,6 +85,9 @@ export default {
           name: this.enteredName,
           rating: this.chosenRating,
         }),
+      }).catch((error) => {
+        console.log(error);
+        this.error = "Something went wrong!";
       });
       this.enteredName = "";
       this.chosenRating = null;
